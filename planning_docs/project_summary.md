@@ -16,13 +16,13 @@ _Last updated: 2025-10-22 17:11_
 8. **export_level_up_learnsets.py** – Level-up learnsets with correct terminator handling  
 9. **export_weight.py** – Species weights (validated padding & data length)  
 10. **export_offspring.py** – Offspring species mapping  
+11. **export_encounters.py** – Wild encounter data  
 
 ---
 
 ### 🧱 Awaiting Development
 1. **export_items.py** – Item data block (structure TBD)  
-2. **export_encounters.py** – Wild encounter data (multi-table, likely moderate complexity)  
-3. **export_trainers.py** – Trainer party data (variable length, multi-entity mapping)
+2. **export_trainers.py** – Trainer party data (variable length, multi-entity mapping)
 
 ---
 
