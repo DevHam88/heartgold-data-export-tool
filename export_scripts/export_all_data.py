@@ -3,7 +3,7 @@ import subprocess
 from datetime import datetime
 import argparse
 
-WORKERS = ["export_personal_data.py","export_evolutions.py","export_weight.py","export_offspring.py","export_moves.py","export_level_up_learnsets.py","export_egg_learnsets.py","export_tutors.py","export_tutor_learnsets.py","export_encounters.py"]
+WORKERS = ["export_personal_data.py","export_evolutions.py","export_weight.py","export_offspring.py","export_moves.py","export_level_up_learnsets.py","export_egg_learnsets.py","export_tutors.py","export_tutor_learnsets.py","export_encounters.py","export_trainers.py","export_constants.py"]
 OUTPUT_ROOT = "output"
 SUMMARY_FILENAME = "export_summary.txt"
 
