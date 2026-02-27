@@ -16,6 +16,10 @@ SOURCE_5_FILENAME = "expanded/textArchives/0730.txt"  # Trainer class names
 SOURCE_6_FILENAME = "expanded/textArchives/0735.txt"  # Type names
 SOURCE_7_FILENAME = "expanded/textArchives/0749.txt"  # Move descriptions
 SOURCE_8_FILENAME = "expanded/textArchives/0750.txt"  # Move names
+SOURCE_9_FILENAME = "expanded/textArchives/0279.txt"  # Location names
+SOURCE_10_FILENAME = "expanded/textArchives/0221.txt"  # Item descriptions
+SOURCE_11_FILENAME = "expanded/textArchives/0803.txt"  # Species descriptions HG
+SOURCE_12_FILENAME = "expanded/textArchives/0804.txt"  # Species descriptions SS
 
 OUTPUT_1_FILENAME = "constants_item_names.csv"
 OUTPUT_2_FILENAME = "constants_species_names.csv"
@@ -25,6 +29,10 @@ OUTPUT_5_FILENAME = "constants_trainer_class_names.csv"
 OUTPUT_6_FILENAME = "constants_type_names.csv"
 OUTPUT_7_FILENAME = "constants_move_descriptions.csv"
 OUTPUT_8_FILENAME = "constants_move_names.csv"
+OUTPUT_9_FILENAME = "constants_location_names.csv"
+OUTPUT_10_FILENAME = "constants_item_descriptions.csv"
+OUTPUT_11_FILENAME = "constants_species_descriptions_hg.csv"
+OUTPUT_12_FILENAME = "constants_species_descriptions_ss.csv"
 
 LOG_FILENAME = "log_constants.txt"
 
@@ -37,6 +45,10 @@ SPECS = [
     (SOURCE_6_FILENAME, OUTPUT_6_FILENAME, "type_id", "type_name", "default"),
     (SOURCE_7_FILENAME, OUTPUT_7_FILENAME, "move_id", "move_description", "move_desc"),
     (SOURCE_8_FILENAME, OUTPUT_8_FILENAME, "move_id", "move_name", "default"),
+    (SOURCE_9_FILENAME, OUTPUT_9_FILENAME, "location_id", "location_name", "default"),
+    (SOURCE_10_FILENAME, OUTPUT_10_FILENAME, "item_id", "item_description", "desc2"),
+    (SOURCE_11_FILENAME, OUTPUT_11_FILENAME, "species_id", "species_description", "desc2"),
+    (SOURCE_12_FILENAME, OUTPUT_12_FILENAME, "species_id", "species_description", "desc2"),
 ]
 
 TRAINER_NAME_RE = re.compile(r"^\{TRAINER_NAME:\s*(.*?)\}$")
@@ -101,6 +113,25 @@ def _transform(kind: str, s: str, warnings: list[str], context: str) -> str:
         s = s.replace(r"\n", " ")
         s = re.sub(r"\s{2,}", " ", s).strip()
         return s
+
+    if kind == "desc2":
+        # Work on literal "\n" sequences (backslash + n).
+        count = s.count(r"\n")
+
+        # Only WARN if 3 or more literal "\n" sequences.
+        # No log for 0–2.
+        if count >= 3:
+            warnings.append(f"[WARN] {context}: unexpected literal \\n count {count}.")
+
+        # Strip trailing literal "\n" sequences
+        while s.endswith(r"\n"):
+            s = s[:-2]
+
+        # Replace remaining internal literal "\n" with spaces
+        s = s.replace(r"\n", " ")
+        s = re.sub(r"\s{2,}", " ", s).strip()
+        return s
+
 
     warnings.append(f"[WARN] {context}: unknown transform kind '{kind}'; kept raw value.")
     return s
